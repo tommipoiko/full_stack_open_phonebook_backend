@@ -12,6 +12,13 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
+app.get('/info', (request, response) => {
+  Person.countDocuments((err, count) => {
+    let d = new Date()
+    response.send(`<p>Phonebook has info for ${count} people</p><p>${d}</p>`)
+  })
+})
+
 app.get('/api/persons', (request, response) => {
   Person.find().then(people => {
     response.json(people)
