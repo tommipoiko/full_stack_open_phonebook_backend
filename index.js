@@ -20,48 +20,51 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-  Person.find().then(people => {
-    response.json(people)
-  })
+  Person.find()
+    .then(people => {
+      response.json(people)
+    })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  Person.findById(request.params.id).then(person => {
-    if (person) {
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
-  }).catch(error => {
-    console.log(error)
-    response.status(400).send({ error: 'malformatted id' })
-  })
+  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    }).catch(error => {
+      console.log(error)
+      response.status(400).send({ error: 'malformatted id' })
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  Person.findByIdAndRemove(request.params.id).then(result => {
-    response.status(204).end()
-  }).catch(error => {
-    console.log(error)
-    response.status(400).send({ error: 'malformatted id' })
-  })
+  Person.findByIdAndRemove(request.params.id)
+    .then(() => {
+      response.status(204).end()
+    }).catch(error => {
+      console.log(error)
+      response.status(400).send({ error: 'malformatted id' })
+    })
 })
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-
-  if (body.name === undefined || body.number === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
 
   const person = new Person({
     name: body.name,
     number: body.number
   })
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    }).catch(error => {
+      console.log(error.message)
+      response.status(400).json(error.message)
+    })
 })
 
 app.put('/api/persons/:id', (request, response) => {
@@ -70,7 +73,7 @@ app.put('/api/persons/:id', (request, response) => {
     name: body.name,
     number: body.number
   }
-  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then(updatedPerson => {
       response.json(updatedPerson)
     }).catch(error => {

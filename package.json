@@ -7,10 +7,11 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf build && cd ~/full_stack_open/osa3/phonebook/ && npm run build && cp -r build ~/full_stack_open_phonebook_backend/",
-    "deploy": "/home/poikolai/.fly/bin/flyctl deploy",
+    "build:ui": "rm -rf build && cd ~/Programming/school/full_stack_open/osa3/phonebook/ && npm run build && cp -r build ~/Programming/school/full_stack_open_phonebook_backend/",
+    "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "/home/poikolai/.fly/bin/flyctl logs"
+    "logs:prod": "flyctl logs",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.31.0",
     "nodemon": "^2.0.20"
   }
 }
